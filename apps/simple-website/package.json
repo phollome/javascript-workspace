@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@phollome/hooks": "^0.1.0",
     "react-scripts": "3.0.1"
   },
   "peerDependencies": {
