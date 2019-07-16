@@ -1,3 +1,3 @@
-import useTest from "./use-test";
+import useFileReader from "./use-file-reader";
 
-export { useTest };
+export { useFileReader };
