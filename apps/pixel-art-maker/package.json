@@ -1,5 +1,5 @@
 {
-  "name": "pixel-art-maker",
+  "name": "@phollome/pixel-art-maker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
