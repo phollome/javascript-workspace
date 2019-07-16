@@ -5,11 +5,11 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "useTest", {
+Object.defineProperty(exports, "useFileReader", {
   enumerable: true,
   get: function get() {
-    return _useTest["default"];
+    return _useFileReader["default"];
   }
 });
 
-var _useTest = _interopRequireDefault(require("./use-test"));
+var _useFileReader = _interopRequireDefault(require("./use-file-reader"));
