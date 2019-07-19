@@ -5,14 +5,14 @@ import { Save } from "@material-ui/icons";
 function KeyInput(props) {
   const { label, onChange, value: externalValue } = props;
   const [value, setValue] = useState();
-  const handleChange = (evt) => {
+  const handleChange = evt => {
     setValue(evt.target.value);
   };
   const handleSubmit = () => {
     if (value) {
       onChange(value);
     }
-  }
+  };
 
   useEffect(() => {
     if (externalValue && externalValue !== value) {
@@ -38,8 +38,9 @@ function KeyInput(props) {
             </IconButton>
           </InputAdornment>
         ),
-      }} />
-  )
+      }}
+    />
+  );
 }
 
 export default KeyInput;
