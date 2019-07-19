@@ -5,13 +5,16 @@ import { Save } from "@material-ui/icons";
 function KeyInput(props) {
   const { label, onChange, value: externalValue } = props;
   const [value, setValue] = useState();
+  const [shouldObfuscate, setShouldObfuscate] = useState(true);
   const inputRef = useRef();
 
   const handleChange = evt => {
+    setShouldObfuscate(false);
     setValue(evt.target.value);
   };
   const handleSubmit = () => {
     if (value) {
+      setShouldObfuscate(true);
       onChange(value);
     }
   };
@@ -19,6 +22,12 @@ function KeyInput(props) {
     if (inputRef.current && inputRef.current === evt.target) {
       setValue("");
     }
+  };
+
+  const obfuscate = string => {
+    return shouldObfuscate
+      ? string.slice(-4).padStart(string.length, "*")
+      : string;
   };
 
   useEffect(() => {
@@ -30,7 +39,7 @@ function KeyInput(props) {
 
   return (
     <TextField
-      value={value || ""}
+      value={obfuscate(value || "")}
       label={label}
       inputRef={inputRef}
       onChange={handleChange}
@@ -41,7 +50,7 @@ function KeyInput(props) {
             <IconButton
               aria-label="Save API-Key"
               onClick={handleSubmit}
-              disabled={!value || value === props.value}
+              disabled={!value || value === obfuscate(props.value)}
             >
               <Save />
             </IconButton>
