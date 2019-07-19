@@ -15,7 +15,7 @@ function KeyInput(props) {
   }
 
   useEffect(() => {
-    if (externalValue !== value) {
+    if (externalValue && externalValue !== value) {
       setValue(externalValue);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
