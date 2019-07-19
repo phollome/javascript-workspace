@@ -16,7 +16,7 @@ function useLocalStorageItem(key) {
   }, [key]);
 
   const setItem = value => {
-    if (value) {
+    if (value !== undefined) {
       localStorage.setItem(key, value);
       setItemValue(value);
     }
