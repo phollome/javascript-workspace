@@ -16,8 +16,10 @@ function useLocalStorageItem(key) {
   }, [key]);
 
   const setItem = value => {
-    localStorage.setItem(key, value);
-    setItemValue(value);
+    if (value) {
+      localStorage.setItem(key, value);
+      setItemValue(value);
+    }
   };
 
   const removeItem = () => {
