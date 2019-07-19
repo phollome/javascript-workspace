@@ -1,16 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TextField, InputAdornment, IconButton } from "@material-ui/core";
 import { Save } from "@material-ui/icons";
 
 function KeyInput(props) {
   const { label, onChange, value: externalValue } = props;
   const [value, setValue] = useState();
+  const inputRef = useRef();
+
   const handleChange = evt => {
     setValue(evt.target.value);
   };
   const handleSubmit = () => {
     if (value) {
       onChange(value);
+    }
+  };
+  const handleClear = evt => {
+    if (inputRef.current && inputRef.current === evt.target) {
+      setValue("");
     }
   };
 
@@ -25,7 +32,9 @@ function KeyInput(props) {
     <TextField
       value={value || ""}
       label={label}
+      inputRef={inputRef}
       onChange={handleChange}
+      onClick={handleClear}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
