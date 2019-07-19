@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.2.0",
+    "@material-ui/icons": "^4.2.1",
     "@phollome/hooks": "^0.1.0",
     "react-scripts": "3.0.1"
   },
