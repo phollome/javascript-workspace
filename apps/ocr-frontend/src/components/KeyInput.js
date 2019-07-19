@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TextField, InputAdornment, IconButton } from "@material-ui/core";
-import { Save } from "@material-ui/icons";
+import { Save, Clear } from "@material-ui/icons";
 
 function KeyInput(props) {
-  const { label, onChange, value: externalValue } = props;
+  const { label, onChange, value: externalValue, onClear } = props;
   const [value, setValue] = useState();
   const [shouldObfuscate, setShouldObfuscate] = useState(true);
   const inputRef = useRef();
@@ -18,10 +18,16 @@ function KeyInput(props) {
       onChange(value);
     }
   };
-  const handleClear = evt => {
+  const handleClick = evt => {
     if (inputRef.current && inputRef.current === evt.target) {
       setValue("");
     }
+  };
+
+  const handleClear = evt => {
+    setShouldObfuscate(false);
+    setValue("");
+    onClear();
   };
 
   const obfuscate = string => {
@@ -43,10 +49,17 @@ function KeyInput(props) {
       label={label}
       inputRef={inputRef}
       onChange={handleChange}
-      onClick={handleClear}
+      onClick={handleClick}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
+            <IconButton
+              aria-label="Remove API-Key"
+              onClick={handleClear}
+              disabled={!value}
+            >
+              <Clear />
+            </IconButton>
             <IconButton
               aria-label="Save API-Key"
               onClick={handleSubmit}

@@ -14,7 +14,7 @@ function App() {
   const inputRef = useRef();
   const [src, onChange] = useFileReader(inputRef);
   const [tmpKey, setTmpKey] = useState();
-  const [key, setKey] = useLocalStorageItem("Key");
+  const [key, setKey, removeKey] = useLocalStorageItem("Key");
   const [storeKey = false, setStoreKey] = useLocalStorageItem("storeKey");
   const classes = useStyles();
 
@@ -37,6 +37,7 @@ function App() {
         value={storeKey ? key : tmpKey}
         label="API-Key"
         onChange={handleKeyChange}
+        onClear={removeKey}
       />
       <FormControlLabel
         label="Store?"
