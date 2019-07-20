@@ -10,12 +10,30 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+function useRequest() {
+  // maybe name it useFetch
+  const [result, setResult] = useState();
+
+  const makeRequest = async (url, options) => {
+    try {
+      const res = await fetch(url, options);
+      const json = await res.json();
+      setResult(json);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return [result, makeRequest];
+}
+
 function App() {
   const inputRef = useRef();
   const [src, onChange] = useFileReader(inputRef);
   const [tmpKey, setTmpKey] = useState();
   const [key, setKey, removeKey] = useLocalStorageItem("Key");
   const [storeKey = false, setStoreKey] = useLocalStorageItem("storeKey");
+  const [result, request] = useRequest();
   const classes = useStyles();
 
   const handleKeyChange = value => {
@@ -26,10 +44,44 @@ function App() {
     setStoreKey(evt.target.checked);
   };
 
+  const handleDoRequest = async evt => {
+    await request(
+      `https://vision.googleapis.com/v1/images:annotate?key=${
+        storeKey ? key : tmpKey
+      }`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          requests: [
+            {
+              image: {
+                source: {
+                  imageUri: "gs://cloud-samples-data/vision/ocr/sign.jpg",
+                },
+              },
+              features: [
+                {
+                  type: "TEXT_DETECTION",
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    );
+  };
+
   useEffect(() => {
     storeKey ? setKey(tmpKey) : setTmpKey(key);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeKey]);
+
+  if (result) {
+    console.log(result);
+  }
 
   return (
     <>
@@ -50,6 +102,16 @@ function App() {
         }
       />
       <br />
+      {src && (
+        <Button
+          variant="outlined"
+          color="primary"
+          component="span"
+          onClick={handleDoRequest}
+        >
+          Do Request
+        </Button>
+      )}
       <input
         id="file-input"
         ref={inputRef}
