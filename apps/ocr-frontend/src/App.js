@@ -8,6 +8,13 @@ const useStyles = makeStyles(() => ({
   input: {
     display: "none",
   },
+  textarea: {
+    width: "100%",
+    minHeight: "30rem",
+    fontFamily: '"Lucida Console", Monaco, monospace',
+    fontSize: "0.8rem",
+    lineHeight: 1.2,
+  },
 }));
 
 function useRequest() {
@@ -125,6 +132,14 @@ function App() {
       </label>
       <br />
       <img src={src} alt="" />
+      {result && (
+        <textarea
+          className={classes.textarea}
+          cols="30"
+          rows="10"
+          defaultValue={JSON.stringify(result)}
+        />
+      )}
     </>
   );
 }
