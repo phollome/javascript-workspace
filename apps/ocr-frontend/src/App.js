@@ -58,9 +58,7 @@ function App() {
           requests: [
             {
               image: {
-                source: {
-                  imageUri: "gs://cloud-samples-data/vision/ocr/sign.jpg",
-                },
+                content: src.split(";base64,")[1],
               },
               features: [
                 {
