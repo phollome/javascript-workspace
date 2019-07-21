@@ -1,5 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  CircularProgress,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFileReader, useLocalStorageItem } from "@phollome/hooks";
 import KeyInput from "./components/KeyInput";
@@ -20,8 +25,10 @@ const useStyles = makeStyles(() => ({
 function useRequest() {
   // maybe name it useFetch
   const [result, setResult] = useState();
+  const [inProgress, setInProgress] = useState(false);
 
   const makeRequest = async (url, options) => {
+    setInProgress(true);
     try {
       const res = await fetch(url, options);
       const json = await res.json();
@@ -29,9 +36,10 @@ function useRequest() {
     } catch (err) {
       console.error(err);
     }
+    setInProgress(false);
   };
 
-  return [result, makeRequest];
+  return [result, inProgress, makeRequest];
 }
 
 function App() {
@@ -40,7 +48,7 @@ function App() {
   const [tmpKey, setTmpKey] = useState();
   const [key, setKey, removeKey] = useLocalStorageItem("Key");
   const [storeKey = false, setStoreKey] = useLocalStorageItem("storeKey");
-  const [result, request] = useRequest();
+  const [result, inProgress, request] = useRequest();
   const classes = useStyles();
 
   const handleKeyChange = value => {
@@ -108,14 +116,18 @@ function App() {
       />
       <br />
       {src && (
-        <Button
-          variant="outlined"
-          color="primary"
-          component="span"
-          onClick={handleDoRequest}
-        >
-          Do Request
-        </Button>
+        <>
+          <Button
+            variant="outlined"
+            color="primary"
+            component="span"
+            onClick={handleDoRequest}
+            disabled={inProgress}
+          >
+            Do Request
+          </Button>
+          {inProgress && <CircularProgress size={24} />}
+        </>
       )}
       <input
         id="file-input"
