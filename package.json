@@ -7,9 +7,14 @@
     "@babel/core": "^7.5.4",
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^5.1.9",
+    "@storybook/addon-links": "^5.1.9",
+    "@storybook/addons": "^5.1.9",
+    "@storybook/react": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "babel-eslint": "10.0.1",
+    "babel-loader": "^8.0.6",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^5.0.0",
     "eslint-config-react-app": "^4.0.1",
@@ -30,7 +35,9 @@
   "scripts": {
     "init": "npx lerna bootstrap --hoist --nohoist=babel-*",
     "build": "npm run init && lerna run build",
-    "lint": "eslint packages/**/*.js apps/**"
+    "lint": "eslint packages/**/*.js apps/**",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "bin": {
     "eslint": "./node_modules/.bin/eslint"
