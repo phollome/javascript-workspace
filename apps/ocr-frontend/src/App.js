@@ -4,6 +4,9 @@ import {
   Checkbox,
   FormControlLabel,
   CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFileReader, useLocalStorageItem } from "@phollome/hooks";
@@ -46,6 +49,7 @@ function App() {
   const inputRef = useRef();
   const [src, onChange] = useFileReader(inputRef);
   const [tmpKey, setTmpKey] = useState();
+  const [open, setOpen] = useState(false);
   const [key, setKey, removeKey] = useLocalStorageItem("Key");
   const [storeKey = false, setStoreKey] = useLocalStorageItem("storeKey");
   const [result, inProgress, request] = useRequest();
@@ -87,14 +91,18 @@ function App() {
     );
   };
 
+  const handleInputChange = () => {
+    if (src) {
+      setOpen(true);
+      return;
+    }
+    onChange();
+  };
+
   useEffect(() => {
     storeKey ? setKey(tmpKey) : setTmpKey(key);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeKey]);
-
-  if (result) {
-    console.log(result);
-  }
 
   return (
     <>
@@ -135,7 +143,7 @@ function App() {
         className={classes.input}
         type="file"
         accept="image/*"
-        onChange={onChange}
+        onChange={handleInputChange}
       />
       <label htmlFor="file-input">
         <Button variant="contained" color="primary" component="span">
@@ -152,6 +160,30 @@ function App() {
           defaultValue={JSON.stringify(result)}
         />
       )}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          You will override former data.
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            color="primary"
+            onClick={() => {
+              onChange();
+              setOpen(false);
+            }}
+          >
+            Agree
+          </Button>
+          <Button color="primary" onClick={() => setOpen(false)} autoFocus>
+            Abort
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
