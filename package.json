@@ -37,7 +37,7 @@
     "build": "npm run init && lerna run build",
     "lint": "eslint packages/**/*.js apps/**",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -c .storybook -o build-storybook"
   },
   "bin": {
     "eslint": "./node_modules/.bin/eslint"
