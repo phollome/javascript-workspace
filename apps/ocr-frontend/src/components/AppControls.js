@@ -1,10 +1,11 @@
 import React from "react";
-import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
-import { name as AppName } from "../../package.json";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AddPhotoAlternate, Refresh, VpnKey } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
-import { classes } from "istanbul-lib-coverage";
+import { name as AppName } from "../../package.json";
+import AppControlsButton from "./AppControlsButton.js";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
@@ -18,9 +19,9 @@ function AppControls(props) {
         <Typography className={classes.title} variant="h6" color="inherit">
           {AppName}
         </Typography>
-        <Button color="inherit">Add API-Key</Button>
-        <Button color="inherit">Load Image</Button>
-        <Button color="inherit" disabled>Process Image</Button>
+        <AppControlsButton label="Add API key" icon={<VpnKey />} />
+        <AppControlsButton label="Load image" icon={<AddPhotoAlternate />} />
+        <AppControlsButton label="Process image" icon={<Refresh />} disabled />
       </Toolbar>
     </AppBar>
   );
