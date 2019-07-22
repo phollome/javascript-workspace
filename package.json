@@ -33,7 +33,7 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "init": "npx lerna bootstrap --hoist --nohoist=babel-*",
+    "init": "npm i && npx lerna clean -y && npx lerna bootstrap --hoist --nohoist=babel-*",
     "build": "npm run init && lerna run build",
     "lint": "eslint packages/**/*.js apps/**",
     "storybook": "start-storybook -p 6006",
