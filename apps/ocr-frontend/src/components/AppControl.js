@@ -1,7 +1,7 @@
 import React from "react";
 import { Tooltip, IconButton } from "@material-ui/core";
 
-function AppControlsButton(props) {
+function AppControl(props) {
   const { label, icon, children, ...otherProps } = props;
   return (
     <Tooltip title={label}>
@@ -12,4 +12,4 @@ function AppControlsButton(props) {
   );
 }
 
-export default AppControlsButton;
+export default AppControl;
