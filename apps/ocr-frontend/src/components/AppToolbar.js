@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { AddPhotoAlternate, Refresh, VpnKey } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
-import { useFileReader } from "@phollome/hooks";
+import { useFileReader, useFetchJSON } from "@phollome/hooks";
 import { name as AppName } from "../../package.json";
 import AppControl from "./AppControl";
 import { useImageData } from "../contexts/ImageDataContext";
@@ -23,6 +23,7 @@ function AppToolbar(props) {
   const [showOverridePrompt, setShowOverridePrompt] = useState(false);
   const { setImageData } = useImageData();
   const [src, onChange] = useFileReader(inputRef);
+  const [result, inProgress, request] = useFetchJSON();
 
   useEffect(() => {
     if (src) {
@@ -38,6 +39,30 @@ function AppToolbar(props) {
     }
   };
 
+  const handleProcess = () => {
+    request(`https://vision.googleapis.com/v1/images:annotate`, {
+      // TODO: Add "key" param
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({
+        requests: [
+          {
+            image: {
+              content: src.split(";base64,")[1],
+            },
+            features: [
+              {
+                type: "TEXT_DETECTION",
+              },
+            ],
+          },
+        ],
+      }),
+    });
+  };
+
   const handleOverridePromptConfirm = () => {
     onChange();
     setShowOverridePrompt(false);
@@ -46,6 +71,10 @@ function AppToolbar(props) {
   const handleDialogClose = () => {
     setShowOverridePrompt(false);
   };
+
+  if (result) {
+    console.log(result);
+  }
 
   return (
     <>
@@ -73,7 +102,8 @@ function AppToolbar(props) {
           <AppControl
             label="Process image"
             icon={<Refresh />}
-            disabled={!!!src}
+            disabled={inProgress || !!!src}
+            onClick={handleProcess}
           />
         </Toolbar>
       </AppBar>
