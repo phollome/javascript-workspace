@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { storiesOf } from "@storybook/react";
 import AppToolbar from "../../src/components/AppToolbar";
 import { ImageDataProvider } from "../../src/contexts/ImageDataContext";

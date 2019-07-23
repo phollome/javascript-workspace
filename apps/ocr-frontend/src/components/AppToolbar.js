@@ -26,7 +26,7 @@ function AppToolbar(props) {
     if (src) {
       setImageData(src);
     }
-  }, [src]);
+  }, [src, setImageData]);
 
   const handleFileInput = () => {
     // TODO: Show prompt before override src
@@ -49,9 +49,17 @@ function AppToolbar(props) {
           onChange={handleFileInput}
         />
         <label htmlFor="file-input">
-          <AppControl label="Load image" icon={<AddPhotoAlternate />} component="span" />
+          <AppControl
+            label="Load image"
+            icon={<AddPhotoAlternate />}
+            component="span"
+          />
         </label>
-        <AppControl label="Process image" icon={<Refresh />} disabled={!!!src} />
+        <AppControl
+          label="Process image"
+          icon={<Refresh />}
+          disabled={!!!src}
+        />
       </Toolbar>
     </AppBar>
   );
