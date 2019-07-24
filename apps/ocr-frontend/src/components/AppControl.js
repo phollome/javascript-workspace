@@ -5,9 +5,11 @@ function AppControl(props) {
   const { label, icon, children, ...otherProps } = props;
   return (
     <Tooltip title={label}>
-      <IconButton color="inherit" aria-label={label} {...otherProps}>
-        {icon || children}
-      </IconButton>
+      <div>
+        <IconButton color="inherit" aria-label={label} {...otherProps}>
+          {icon || children}
+        </IconButton>
+      </div>
     </Tooltip>
   );
 }
