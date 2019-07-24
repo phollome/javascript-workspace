@@ -20,14 +20,19 @@ function AppDialog(props) {
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{description}</DialogContentText>
+        {props.children}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary" autoFocus>
-          Close
-        </Button>
-        <Button onClick={onConfirm} color="primary">
-          Agree
-        </Button>
+        {props.actions || (
+          <>
+            <Button onClick={onClose} color="primary" autoFocus>
+              Close
+            </Button>
+            <Button onClick={onConfirm} color="primary">
+              Agree
+            </Button>
+          </>
+        )}
       </DialogActions>
     </Dialog>
   );
