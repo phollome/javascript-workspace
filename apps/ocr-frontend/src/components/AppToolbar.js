@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { AddPhotoAlternate, Refresh, VpnKey } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
@@ -6,7 +6,9 @@ import { useFileReader, useFetchJSON } from "@phollome/hooks";
 import { name as AppName } from "../../package.json";
 import AppControl from "./AppControl";
 import { useImageData } from "../contexts/ImageDataContext";
-import AppDialog from "./AppDialog.js";
+import { useKey } from "../contexts/KeyContext";
+import AppDialog from "./AppDialog";
+import KeyDialog from "./dialogs/KeyDialog";
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -21,15 +23,21 @@ function AppToolbar(props) {
   const classes = useStyles();
   const inputRef = useRef();
   const [showOverridePrompt, setShowOverridePrompt] = useState(false);
+  const [showKeyDialog, setShowKeyDialog] = useState(false);
   const { setImageData } = useImageData();
   const [src, onChange] = useFileReader(inputRef);
   const [result, inProgress, request] = useFetchJSON();
+  const { key } = useKey();
 
   useEffect(() => {
     if (src) {
       setImageData(src);
     }
-  }, [src, setImageData]);
+  }, [src])
+
+  const handleOpenKeyDialog = () => {
+    setShowKeyDialog(true);
+  }
 
   const handleFileInput = () => {
     if (src) {
@@ -40,8 +48,7 @@ function AppToolbar(props) {
   };
 
   const handleProcess = () => {
-    request(`https://vision.googleapis.com/v1/images:annotate`, {
-      // TODO: Add "key" param
+    request(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -70,6 +77,7 @@ function AppToolbar(props) {
 
   const handleDialogClose = () => {
     setShowOverridePrompt(false);
+    setShowKeyDialog(false);
   };
 
   if (result) {
@@ -83,7 +91,7 @@ function AppToolbar(props) {
           <Typography className={classes.title} variant="h6" color="inherit">
             {AppName}
           </Typography>
-          <AppControl label="Add API key" icon={<VpnKey />} />
+          <AppControl label="Add API key" icon={<VpnKey />} onClick={handleOpenKeyDialog} />
           <input
             id="file-input"
             ref={inputRef}
@@ -114,6 +122,7 @@ function AppToolbar(props) {
         onConfirm={handleOverridePromptConfirm}
         onClose={handleDialogClose}
       />
+      <KeyDialog open={showKeyDialog} onClose={handleDialogClose} />
     </>
   );
 }
