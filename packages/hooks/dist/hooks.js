@@ -60,5 +60,25 @@ function useLocalStorageItem(key) {
   return [itemValue, setItem, removeItem];
 }
 
+function useFetchJSON() {
+  const [result, setResult] = react.useState();
+  const [inProgress, setInProgress] = react.useState(false);
+
+  const makeRequest = async (url, options) => {
+    setInProgress(true);
+    try {
+      const res = await fetch(url, options);
+      const json = await res.json();
+      setResult(json);
+    } catch (err) {
+      console.error(err);
+    }
+    setInProgress(false);
+  };
+
+  return [result, inProgress, makeRequest];
+}
+
+exports.useFetchJSON = useFetchJSON;
 exports.useFileReader = useFileReader;
 exports.useLocalStorageItem = useLocalStorageItem;
