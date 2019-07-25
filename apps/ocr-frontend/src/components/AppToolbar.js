@@ -5,8 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useFileReader, useFetchJSON } from "@phollome/hooks";
 import { name as AppName } from "../../package.json";
 import AppControl from "./AppControl";
-import { useImageData } from "../contexts/ImageDataContext";
-import { useKey } from "../contexts/KeyContext";
+import { useImageData, useKey, useResult } from "../contexts";
 import AppDialog from "./AppDialog";
 import KeyDialog from "./dialogs/KeyDialog";
 
@@ -26,11 +25,12 @@ function AppToolbar(props) {
   const [showKeyDialog, setShowKeyDialog] = useState(false);
   const { setImageData } = useImageData();
   const [src, onChange] = useFileReader(inputRef);
-  const [result, inProgress, request] = useFetchJSON();
+  const { result, inProgress, makeRequest } = useResult();
   const { key } = useKey();
 
   useEffect(() => {
     if (src) {
+      console.log(src);
       setImageData(src);
     }
   }, [src])
@@ -45,29 +45,6 @@ function AppToolbar(props) {
     } else {
       onChange();
     }
-  };
-
-  const handleProcess = () => {
-    request(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        requests: [
-          {
-            image: {
-              content: src.split(";base64,")[1],
-            },
-            features: [
-              {
-                type: "TEXT_DETECTION",
-              },
-            ],
-          },
-        ],
-      }),
-    });
   };
 
   const handleOverridePromptConfirm = () => {
@@ -111,7 +88,7 @@ function AppToolbar(props) {
             label="Process image"
             icon={<Refresh />}
             disabled={inProgress || !!!src}
-            onClick={handleProcess}
+            onClick={makeRequest}
           />
         </Toolbar>
       </AppBar>

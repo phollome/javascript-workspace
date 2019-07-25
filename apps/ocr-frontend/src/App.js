@@ -1,15 +1,17 @@
 import React from "react";
 
-import { KeyProvider, ImageDataProvider } from "./contexts";
+import { KeyProvider, ImageDataProvider, ResultProvider } from "./contexts";
 import { AppToolbar, ImagePreview, ResultPreview } from "./components";
 
 function App() {
   return (
     <KeyProvider>
       <ImageDataProvider>
-        <AppToolbar />
-        <ImagePreview />
-        <ResultPreview />
+        <ResultProvider>
+          <AppToolbar />
+          <ImagePreview />
+          <ResultPreview />
+        </ResultProvider>
       </ImageDataProvider>
     </KeyProvider>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useResult } from "../contexts";
 
 const useStyles = makeStyles(() => ({
   textarea: {
@@ -12,13 +13,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ResultPreview(props) {
-  const { result } = { result: {} };
+  const { result } = useResult();
   const classes = useStyles();
   return <textarea
     className={classes.textarea}
     cols="30"
     rows="10"
-    defaultValue={JSON.stringify(result)}
+    value={JSON.stringify(result)}
   />
 }
 

@@ -1,8 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import AppToolbar from "../../src/components/AppToolbar";
-import { ImageDataProvider } from "../../src/contexts/ImageDataContext";
-import { KeyProvider } from "../../src/contexts/KeyContext";
+import { ImageDataProvider, KeyProvider, ResultProvider } from "../../src/contexts";
 
 storiesOf("apps/ocr-frontend/components/AppToolbar", module).add(
   "default",
@@ -10,7 +9,9 @@ storiesOf("apps/ocr-frontend/components/AppToolbar", module).add(
     return (
       <KeyProvider>
         <ImageDataProvider>
-          <AppToolbar />
+          <ResultProvider>
+            <AppToolbar />
+          </ResultProvider>
         </ImageDataProvider>
       </KeyProvider>
     );
