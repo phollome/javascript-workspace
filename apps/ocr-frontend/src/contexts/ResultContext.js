@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { useFetchJSON } from "@phollome/hooks";
 import { useKey, useImageData } from "./";
 
@@ -6,9 +6,23 @@ const Context = createContext();
 
 
 function Provider(props) {
+  const { defaultResult, ...otherProps } = props;
+  const [localResult, setLocalResult] = useState();
   const [result, inProgress, request] = useFetchJSON();
   const { key } = useKey();
   const { imageData } = useImageData();
+
+  console.log(localResult);
+
+  useEffect(() => {
+    if (result !== localResult) {
+      setLocalResult(result);
+    }
+  }, [result]);
+
+  useEffect(() => {
+    setLocalResult(defaultResult);
+  }, [defaultResult]);
 
   const makeRequest = () => {
     request(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
@@ -32,7 +46,7 @@ function Provider(props) {
       }),
     });
   };
-  return <Context.Provider value={{ result, inProgress, makeRequest }} {...props} />;
+  return <Context.Provider value={{ result: localResult, updateResult: setLocalResult, inProgress, makeRequest }} {...otherProps} />;
 }
 
 function useResult() {
