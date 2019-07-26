@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useResult } from "../contexts";
 
@@ -13,14 +14,45 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ResultPreview(props) {
-  const { result } = useResult();
+  const { result, updateResult } = useResult();
+  const [value, setValue] = useState();
   const classes = useStyles();
-  return <textarea
-    className={classes.textarea}
-    cols="30"
-    rows="10"
-    value={JSON.stringify(result)}
-  />
+
+  useEffect(() => {
+    const stringifiedResult = JSON.stringify(result);
+    if (stringifiedResult !== value) {
+      setValue(stringifiedResult);
+    }
+  }, [result]);
+
+  const handleChange = (evt) => {
+    setValue(evt.target.value);
+  };
+
+  const handleUpdate = () => {
+    const stringifiedResult = JSON.stringify(result);
+    if (value !== stringifiedResult) {
+      try {
+        const parsedValue = JSON.parse(value);
+        updateResult(parsedValue);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  return (
+    <>
+      <textarea
+        className={classes.textarea}
+        cols="30"
+        rows="10"
+        value={value}
+        onChange={handleChange}
+      />
+      <Button color="primary" onClick={handleUpdate}>Update</Button>
+    </>
+  );
 }
 
 export default ResultPreview;
