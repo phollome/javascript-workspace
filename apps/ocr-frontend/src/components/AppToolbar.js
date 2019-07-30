@@ -20,7 +20,7 @@ function AppToolbar(props) {
   const classes = useStyles();
   const inputRef = useRef();
   const [showKeyDialog, setShowKeyDialog] = useState(false);
-  const {imageData} = useImageData();
+  const { imageData } = useImageData();
   const { result, inProgress, makeRequest } = useResult();
   const { key } = useKey();
 
@@ -38,7 +38,7 @@ function AppToolbar(props) {
 
   return (
     <>
-      <AppBar position="static" color="primary">
+      <AppBar className={props.className} position="static" color="primary">
         <Toolbar>
           <Typography className={classes.title} variant="h6" color="inherit">
             {AppName}
