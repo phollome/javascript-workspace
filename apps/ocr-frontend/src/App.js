@@ -1,7 +1,7 @@
 import React from "react";
 import { CssBaseline, Drawer } from "@material-ui/core";
 import { KeyProvider, ImageDataProvider, ResultProvider } from "./contexts";
-import { AppToolbar, PreviewContainer } from "./components";
+import { AppToolbar, PreviewContainer, ResultContainer } from "./components";
 import { makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 400;
@@ -24,6 +24,7 @@ function App() {
         <ResultProvider>
           <CssBaseline />
           <AppToolbar className={classes.appToolbar} />
+          <ResultContainer className={classes.appToolbar}/>
           <Drawer
             classes={{
               paper: classes.drawerPaper,
