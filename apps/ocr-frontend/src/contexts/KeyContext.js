@@ -31,7 +31,7 @@ function Provider(props) {
 function useKey() {
   const context = useContext(Context);
   if (!context) {
-    throw new Error('useKEy must be used within a KeyProvider');
+    throw new Error('useKey must be used within a KeyProvider');
   }
   return context;
 }
