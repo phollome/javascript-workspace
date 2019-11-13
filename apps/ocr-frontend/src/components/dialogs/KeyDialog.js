@@ -7,6 +7,8 @@ function KeyDialog(props) {
   const { open, onClose } = props;
 
   const [keyInput, setKeyInput] = useState("");
+  const [obfuscatedKey, setObfuscatedKey] = useState()
+  const [shouldShowObfuscatedString, setShouldShowObfuscatedString] = useState(true);
 
   const { key, setKey, removeKey, storeKey, setStoreKey } = useKey();
 
@@ -15,6 +17,10 @@ function KeyDialog(props) {
       setKeyInput(key);
     }
   }, [key])
+
+  useEffect(() => {
+    setObfuscatedKey(keyInput.slice(-4).padStart(keyInput.length, "*"))
+  }, [keyInput]);
 
   const handleKeyInput = (evt) => {
     setKeyInput(evt.target.value);
@@ -26,6 +32,7 @@ function KeyDialog(props) {
   };
 
   const handleKeySave = () => {
+    setShouldShowObfuscatedString(true);
     setKey(keyInput);
   };
 
@@ -38,8 +45,17 @@ function KeyDialog(props) {
     if (keyInput !== key) {
       setKeyInput(key || "");
     }
+    setShouldShowObfuscatedString(true);
     onClose();
   }
+
+  const handleFocus = () => {
+    setShouldShowObfuscatedString(false);
+  };
+
+  const handleBlur = () => {
+    setShouldShowObfuscatedString(true);
+  };
 
   return (
     <AppDialog open={open}
@@ -58,7 +74,7 @@ function KeyDialog(props) {
         </Button>
       </>)}
     >
-      <TextField value={keyInput} onChange={handleKeyInput} fullWidth autoFocus />
+      <TextField value={shouldShowObfuscatedString ? obfuscatedKey : keyInput} onFocus={handleFocus} onBlur={handleBlur} onChange={handleKeyInput} fullWidth />
       <FormControlLabel
         control={
           <Checkbox
