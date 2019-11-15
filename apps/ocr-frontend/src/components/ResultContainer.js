@@ -60,12 +60,12 @@ function ResultContainer(props) {
     {
       parsedResult
         ? parsedResult.map(block => {
-            return <textarea
-                cols="30"
-                rows="10"
-                value={block}
-              />
-          })
+          return <textarea
+            cols="30"
+            rows="10"
+            value={block}
+          />
+        })
         : null
     }
   </div>

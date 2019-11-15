@@ -1,12 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import { AddPhotoAlternate, Refresh, VpnKey } from "@material-ui/icons";
+import { Refresh, VpnKey } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
-import { useFileReader, useFetchJSON } from "@phollome/hooks";
 import { name as AppName } from "../../package.json";
 import AppControl from "./AppControl";
-import { useImageData, useKey, useResult } from "../contexts";
-import AppDialog from "./AppDialog";
+import { useImageData, useResult } from "../contexts";
 import KeyDialog from "./dialogs/KeyDialog";
 import ImageControl from "./controls/ImageControl";
 
@@ -18,11 +16,9 @@ const useStyles = makeStyles(theme => ({
 
 function AppToolbar(props) {
   const classes = useStyles();
-  const inputRef = useRef();
   const [showKeyDialog, setShowKeyDialog] = useState(false);
   const { imageData } = useImageData();
   const { result, inProgress, makeRequest } = useResult();
-  const { key } = useKey();
 
   const handleOpenKeyDialog = () => {
     setShowKeyDialog(true);

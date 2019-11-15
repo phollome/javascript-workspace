@@ -12,13 +12,11 @@ function Provider(props) {
   const { key } = useKey();
   const { imageData } = useImageData();
 
-  console.log(localResult);
-
   useEffect(() => {
     if (result !== localResult) {
       setLocalResult(result);
     }
-  }, [result]);
+  }, [result]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setLocalResult(defaultResult);

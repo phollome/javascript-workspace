@@ -12,13 +12,13 @@ function Provider(props) {
     if (storeKey && localKey !== storedKey) {
       setStoredKey(localKey);
     }
-  }, [localKey]);
+  }, [localKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (storedKey !== localKey) {
       setLocalKey(storedKey);
     }
-  }, [storedKey])
+  }, [storedKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const removeKey = () => {
     removeStoredKey();

@@ -24,7 +24,7 @@ function ImageControl(props) {
       console.log(src);
       setImageData(src);
     }
-  }, [src])
+  }, [src, setImageData]);
 
   const handleFileInput = () => {
     if (src) {

@@ -16,7 +16,7 @@ function KeyDialog(props) {
     if (key && key !== keyInput) {
       setKeyInput(key);
     }
-  }, [key])
+  }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setObfuscatedKey(keyInput.slice(-4).padStart(keyInput.length, "*"))

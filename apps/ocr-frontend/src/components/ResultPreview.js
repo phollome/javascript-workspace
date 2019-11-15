@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useResult } from "../contexts";
@@ -23,7 +23,7 @@ function ResultPreview(props) {
     if (stringifiedResult !== value) {
       setValue(stringifiedResult);
     }
-  }, [result]);
+  }, [result]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (evt) => {
     setValue(evt.target.value);
