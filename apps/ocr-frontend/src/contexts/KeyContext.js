@@ -5,7 +5,7 @@ const Context = createContext();
 
 function Provider(props) {
   const [storedKey, setStoredKey, removeStoredKey] = useLocalStorageItem("key");
-  const [localKey, setLocalKey] = useState();
+  const [localKey, setLocalKey] = useState(null);
   const [storeKey = false, setStoreKey] = useLocalStorageItem("storeKey");
 
   useEffect(() => {

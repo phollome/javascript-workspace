@@ -31,7 +31,7 @@ function useFileReader(inputRef) {
 }
 
 function useLocalStorageItem(key) {
-  const [itemValue, setItemValue] = react.useState();
+  const [itemValue, setItemValue] = react.useState(null);
 
   react.useEffect(() => {
     const value = localStorage.getItem(key);
