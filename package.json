@@ -33,7 +33,7 @@
     "react-test-renderer": "^16.11.0"
   },
   "dependencies": {
-    "react-scripts": "3.0.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "init": "npm i && npx lerna clean -y && npx lerna bootstrap --hoist --nohoist=babel-*",
